@@ -32,6 +32,7 @@ def tour_debut(joueur, jeu):
 
 def action(joueur, event, jeu):
     # Détecte les actions du joueur
+
     collision = None
     armee = joueur["armee"]
     plateau = joueur["plateau"]
@@ -80,6 +81,15 @@ def action(joueur, event, jeu):
 def afficher_placement(armee, jeu):
     for bateau in armee:
         jeu.win.blit(bateau.image, bateau.rect)
+
+
+def recommencer(jeu):
+    armee1 = armement(jeu)
+    armee2 = armement(jeu)
+    plateau1 = mouvement(armee1)
+    plateau2 = mouvement(armee2)
+
+    return armee1, plateau1, armee2, plateau2
 
 
 def armement(jeu):
