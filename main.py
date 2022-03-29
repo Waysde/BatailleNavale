@@ -1,49 +1,62 @@
 from Placement import *
-from Jeu import *
-
-pygame.init()
-
+from Tir import *
+from Game import Game
 
 # ___________INITIALISATION DES VALEURS___________
-armee1 = armement()  # Créer une armée composée de bateaux
-boat1 = 0  # Permet de voir quel bateau est sélectionné dans l'armée
-plateau1 = mouvement(armee1)  # Place les bateaux de l'armée sur le plateau
+pygame.init()
 
-# meme chose avec l'armée 2
-armee2 = armement()
-boat2 = 0
+jeu = Game(1920, 1080, 750, 60)
+
+pygame.display.set_caption("Bataille Navale")
+win = pygame.display.set_mode((jeu.width, jeu.height))
+
+clock = pygame.time.Clock()
+
+armee1 = armement(jeu)
+armee2 = armement(jeu)
+plateau1 = mouvement(armee1)
 plateau2 = mouvement(armee2)
 
-# reset les valeurs qui permettent de commencer la partie
-joueur = 1
-running = True
-debut = True
-game = True
+jeu.init_valeur(armee1, armee2, plateau1, plateau2, win)
 
-# Fait tourner la fenêtre(pas utilisé pour le moment, car on joue tout le temps)
-while running:
+# _________________BOUCLE DU JEU_________________
+while jeu.running:
 
-    # Boucle pour la phase de placement des bateaux
-    while debut:
+    jeu.background()
 
-        # boucle pour la phase de placement des bateaux du joueur 1
-        while joueur == 1:
+    if jeu.debut:
+        jeu.debuter()
 
-            running, joueur, plateau1, armee1, boat1, debut, game = tour_debut(plateau1, armee1, boat1, 1)
+    # Phase de placement des bateaux
+    elif jeu.placement:
 
-        # Même chose pour le joueur 2
-        while joueur == 2:
-
-            running, joueur, plateau2, armee2, boat2, debut, game = tour_debut(plateau2, armee2, boat2, 2)
-
-    win.fill((0, 0, 0))
-    while game:
-
-        while joueur == 1:
-
-            plateau1, plateau2, armee2, game, joueur = tour_tir(plateau1, plateau2, armee2, 1)
+        # Phase de placement des bateaux du joueur 1
+        if jeu.joueur1["tour"]:
+            # voir Placement.py
+            jeu.joueur1 = tour_debut(jeu.joueur1, jeu)
 
         # Même chose pour le joueur 2
-        while joueur == 2:
+        if jeu.joueur2["tour"]:
 
-            plateau2, plateau1, armee1, game, joueur = tour_tir(plateau2, plateau1, armee1, 2)
+            jeu.joueur2 = tour_debut(jeu.joueur2, jeu)
+
+    elif jeu.tir:
+
+        if jeu.joueur1["tour"]:
+            # voir Tir.py
+            jeu.joueur2 = tour_tir(jeu.joueur1, jeu.joueur2, jeu)
+
+        # Même chose pour le joueur 2
+        if jeu.joueur2["tour"]:
+
+            jeu.joueur1 = tour_tir(jeu.joueur2, jeu.joueur1, jeu)
+
+    else:
+        afficher_jeu(jeu.perdant, jeu.gagnant, jeu)
+        jeu.finir()
+
+    pygame.display.flip()
+    clock.tick(jeu.FPS)
+
+    if jeu.changement:
+        jeu.changer_tour()
