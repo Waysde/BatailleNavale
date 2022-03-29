@@ -1,4 +1,5 @@
 import pygame
+from Placement import recommencer
 
 
 class Game:
@@ -83,7 +84,12 @@ class Game:
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
+                    self.ecart_width = (self.width - self.taille) // 2
                     self.debut = True
+                    self.joueur1["armee"], self.joueur1["plateau"], self.joueur2["armee"], self.joueur2["plateau"] = recommencer(self)
+                    self.joueur1["boat"] = 0
+                    self.joueur2["boat"] = 0
+                    self.joueur1["tour"] = True
 
     def victoire(self, gagnant, perdant):
         self.tir = False
