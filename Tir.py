@@ -17,7 +17,8 @@ def tour_tir(joueur, ennemi, jeu):
                 if co is not False:
                     degat = verif_touche(ennemi["plateau"], co[0], co[1])
 
-                    ennemi["plateau"], ennemi["armee"] = trouver_bateau(ennemi["plateau"], degat, co[0], co[1], ennemi["armee"])
+                    ennemi["plateau"], ennemi["armee"] = trouver_bateau(ennemi["plateau"], degat, co[0], co[1],
+                                                                        ennemi["armee"], jeu)
 
                     gagnant = fin(ennemi["armee"])
                     if gagnant:
@@ -62,7 +63,7 @@ def fin(armee):
     return True
 
 
-def trouver_bateau(plateau, degat, y, x, armee):
+def trouver_bateau(plateau, degat, y, x, armee, jeu):
     if degat:
         plateau[y][x] = 3
 
@@ -72,29 +73,29 @@ def trouver_bateau(plateau, degat, y, x, armee):
                     if bateau.Vx > 0:
                         for Bx in range(bateau.x, bateau.x+bateau.Vx+1):
                             if Bx == x:
-                                return toucher(bateau, plateau), armee
+                                return toucher(bateau, plateau, jeu), armee
                     else:
                         for Bx in range(bateau.x, bateau.x+bateau.Vx-1, -1):
                             if Bx == x:
-                                return toucher(bateau, plateau), armee
+                                return toucher(bateau, plateau, jeu), armee
 
             else:
                 if x == bateau.x:
                     if bateau.Vy > 0:
                         for By in range(bateau.y, bateau.y+bateau.Vy+1):
                             if By == y:
-                                return toucher(bateau, plateau), armee
+                                return toucher(bateau, plateau, jeu), armee
                     else:
                         for By in range(bateau.y, bateau.y+bateau.Vy-1, -1):
                             if By == y:
-                                return toucher(bateau, plateau), armee
+                                return toucher(bateau, plateau, jeu), armee
     else:
         plateau[y][x] = 2  # Si le tir ne touche pas on met la case à 2 pour dire que le tir est dans l'eau
 
     return plateau, armee
 
 
-def toucher(bateau, plateau):
+def toucher(bateau, plateau, jeu):
     bateau.damage()
 
     if bateau.degat == bateau.longueur:
@@ -102,7 +103,7 @@ def toucher(bateau, plateau):
         bateau.safe = False
         plateau = entoure(plateau, bateau)
 
-        bateau.origin_image = pygame.image.load(f"image/{bateau.longueur} casesCoule.png")
+        bateau.origin_image = jeu.images[bateau.longueur]
         bateau.tourner()
 
     return plateau
