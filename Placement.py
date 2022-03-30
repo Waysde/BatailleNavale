@@ -97,11 +97,11 @@ def armement(jeu):
     ecart_height = jeu.ecart_height
     ecart_width = jeu.ecart_width
 
-    b1 = Bateau(0, 0, 4, 0, pygame.image.load("image/5 cases.png"), carre, ecart_height, ecart_width)
-    b2 = Bateau(0, 2, 3, 0, pygame.image.load("image/4 cases.png"), carre, ecart_height, ecart_width)
-    b3 = Bateau(0, 4, 2, 0, pygame.image.load("image/3 cases.png"), carre, ecart_height, ecart_width)
-    b4 = Bateau(0, 6, 2, 0, pygame.image.load("image/3 cases.png"), carre, ecart_height, ecart_width)
-    b5 = Bateau(0, 8, 1, 0, pygame.image.load("image/2 cases.png"), carre, ecart_height, ecart_width)
+    b1 = Bateau(0, 0, 4, 0, jeu.images[13], carre, ecart_height, ecart_width)
+    b2 = Bateau(0, 2, 3, 0, jeu.images[12], carre, ecart_height, ecart_width)
+    b3 = Bateau(0, 4, 2, 0, jeu.images[11], carre, ecart_height, ecart_width)
+    b4 = Bateau(0, 6, 2, 0, jeu.images[11], carre, ecart_height, ecart_width)
+    b5 = Bateau(0, 8, 1, 0, jeu.images[10], carre, ecart_height, ecart_width)
     armee = [b1, b2, b3, b4, b5]
     return armee
 
