@@ -5,7 +5,8 @@ from Game import Game
 # ___________INITIALISATION DES VALEURS___________
 pygame.init()
 
-jeu = Game(1920, 1080, 750, 60)
+jeu = Game(1920, 60)
+jeu.image()
 
 pygame.display.set_caption("Bataille Navale")
 win = pygame.display.set_mode((jeu.width, jeu.height))
